@@ -1,0 +1,29 @@
+.sidebar {
+  width: 160px;
+  height: 90vh;
+  background-color: #2c2c2c;
+  border-radius: 20px 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  color: #fafafa;
+}
+
+.sidebar li {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background-color: #fafafa;
+}
+
+.logo {
+  height: 70px;
+}

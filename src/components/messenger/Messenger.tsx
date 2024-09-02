@@ -1,10 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
 import "./Messenger.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SidebarButton from "../button/SidebarButton";
 import {
   faCircle,
   faPaperclip,
   faXmark,
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface Person {
@@ -12,6 +14,7 @@ interface Person {
   name: string;
   avatar: string;
   isOnline?: boolean;
+  hasNewMessages?: boolean;
 }
 
 interface Message {
@@ -23,13 +26,14 @@ interface FileUploadButtonProps {
   onFileUpload: (file: File) => void;
 }
 
-const people: Person[] = [
+const initialPeople: Person[] = [
   {
     id: 1,
     name: "John Doe",
     avatar:
       "https://i.pinimg.com/564x/23/67/99/23679975f9299de2b4c9123a6810e011.jpg",
     isOnline: true,
+    hasNewMessages: true,
   },
   {
     id: 2,
@@ -37,6 +41,7 @@ const people: Person[] = [
     avatar:
       "https://i.pinimg.com/564x/bb/89/f9/bb89f986f42e12064ea14c195120c6bf.jpg",
     isOnline: false,
+    hasNewMessages: false,
   },
   {
     id: 3,
@@ -44,6 +49,7 @@ const people: Person[] = [
     avatar:
       "https://i.pinimg.com/736x/0a/71/1e/0a711e478b9809354b8110b2a2e176f1.jpg",
     isOnline: true,
+    hasNewMessages: false,
   },
   {
     id: 4,
@@ -51,6 +57,7 @@ const people: Person[] = [
     avatar:
       "https://i.pinimg.com/564x/55/12/db/5512dba404140c9573c74337d47856c9.jpg",
     isOnline: false,
+    hasNewMessages: true,
   },
 ];
 
@@ -60,6 +67,7 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
   const [newMessage, setNewMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [people, setPeople] = useState<Person[]>(initialPeople);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -79,6 +87,11 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
   const handlePersonClick = (person: Person) => {
     setSelectedPerson(person);
     setMessages([]);
+    setPeople(
+      people.map((p) =>
+        p.id === person.id ? { ...p, hasNewMessages: false } : p
+      )
+    );
   };
 
   const handleSendMessage = () => {
@@ -118,11 +131,23 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
                 selectedPerson?.id === person.id ? "selected-person" : ""
               }`}
             >
-              <img src={person.avatar} alt={person.name} className="avatar" />
-              <span>{person.name}</span>
-              {person.isOnline && (
-                <FontAwesomeIcon icon={faCircle} className="online-indicator" />
-              )}
+              <div className="person-item-content">
+                <img
+                  src={person.avatar}
+                  alt={person.name}
+                  className={`avatar ${
+                    person.isOnline ? "online-avatar" : "offline-avatar"
+                  }`}
+                />
+
+                <span>{person.name}</span>
+                {person.hasNewMessages && (
+                  <FontAwesomeIcon
+                    icon={faBell}
+                    className="notification-icon"
+                  />
+                )}
+              </div>
             </li>
           ))}
         </ul>
@@ -131,7 +156,14 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
       <div className="chat-window">
         {selectedPerson ? (
           <div className="wrapper">
-            <h3>Chat with {selectedPerson.name}</h3>
+            <div className="statusContainer">
+              <h3>Chat with {selectedPerson.name}</h3>
+              <div>
+                {selectedPerson.isOnline && (
+                  <FontAwesomeIcon icon={faCircle} className="online-icon" />
+                )}
+              </div>
+            </div>
             <div className="messages">
               {messages.map((msg, index) => (
                 <div
@@ -175,7 +207,7 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
                     <p onClick={handleFileUpload}>Upload {selectedFile.name}</p>
                     <button
                       className="buttonClip"
-                      title="Удалить файл"
+                      title="delete file"
                       onClick={() => {
                         setSelectedFile(null);
                       }}
@@ -190,14 +222,14 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
           </div>
         ) : (
           <div className="no-chat">
-            <h2>
+            <p>
               Buddy Chat is a simple and user-friendly web messenger designed
               for seamless communication. Whether you're chatting with friends
               or colleagues, Buddy Chat offers a straightforward interface with
               essential features like real-time messaging, file sharing, and
               online status indicators. Stay connected effortlessly and enjoy
               smooth conversations in a clean and intuitive environment
-            </h2>
+            </p>
           </div>
         )}
       </div>
@@ -206,6 +238,11 @@ const Messenger: React.FC<FileUploadButtonProps> = ({ onFileUpload }) => {
         <div className="person-info">
           <img src={selectedPerson.avatar} alt={selectedPerson.name} />
           <h3>{selectedPerson.name}</h3>
+          {/* <SidebarButton
+        icon={   <FontAwesomeIcon icon={faStar}  />}
+        title="add to favorite"
+        onClick={()=>console.log('ef')}
+      /> */}
         </div>
       )}
     </div>

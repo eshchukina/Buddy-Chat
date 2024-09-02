@@ -9,6 +9,7 @@
   width: 100%;
   align-items: center;
   text-align: center;
+  z-index: 100;
 }
 
 .icon {
@@ -17,5 +18,9 @@
 }
 
 .icon:hover {
+  color: #ee7828;
+}
+
+.icon.active {
   color: #ee7828;
 }

@@ -1,0 +1,57 @@
+.settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200000;
+}
+
+.settings-modal {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 300px;
+}
+
+.settings-modal h2 {
+  margin-bottom: 20px;
+}
+
+.settings-section {
+  margin-bottom: 20px;
+}
+
+.settings-section label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.settings-section select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #c5baaa;
+  font-size: 16px;
+  background-color: #fafafa;
+}
+
+.close-button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #ee7828;
+  color: #fafafa;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.close-button:hover {
+  background: #806d61;
+}

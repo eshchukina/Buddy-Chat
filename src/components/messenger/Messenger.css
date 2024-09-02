@@ -19,6 +19,7 @@
   flex-direction: column;
   background-color: #fafafa;
   border-radius: 20px;
+  padding: 0 10px;
 }
 
 .wrapper::before {
@@ -46,7 +47,6 @@
 
 .chat-window {
   width: 60%;
-  padding: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -64,12 +64,39 @@
 
 .messages {
   flex-grow: 1;
-  margin-bottom: 20px;
   overflow-y: auto;
+  max-height: 70%;
+  z-index: 10000;
+}
+
+.messages::-webkit-scrollbar {
+  width: 2px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: #c5baaa;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: #c5baaa;
+  border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background: #c5baaa;
+}
+
+.messages {
+  scrollbar-width: thin;
+  scrollbar-color: #c5baaa #f1f1f1;
+}
+
+.messages {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .message {
-  margin: 10px 0;
+  margin: 10px;
 }
 
 .message.sent {
@@ -212,9 +239,9 @@ input {
 }
 
 @media (max-width: 1000px) {
+
   .people-list {
     width: 30%;
-
     padding: 10px;
     flex-direction: row;
   }
